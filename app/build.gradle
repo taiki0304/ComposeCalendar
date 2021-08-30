@@ -10,8 +10,8 @@ android {
         applicationId "com.monet.composecalendar"
         minSdk 26
         targetSdk 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 1000000
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

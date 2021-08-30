@@ -9,6 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.monet.composecalendar.ui.theme.ComposeCalendarTheme
+import com.monet.library.Calendar
+import com.monet.library.CalendarConstants
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +19,7 @@ class MainActivity : ComponentActivity() {
             ComposeCalendarTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    CalendarLayout()
                 }
             }
         }
@@ -25,14 +27,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun CalendarLayout() {
+//    CalendarConstants.YEAR_MONTH_FORMAT = "yyyy-MM"
+    Calendar()
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ComposeCalendarTheme {
-        Greeting("Android")
+        CalendarLayout()
     }
 }
