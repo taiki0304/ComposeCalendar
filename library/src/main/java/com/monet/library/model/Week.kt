@@ -12,11 +12,10 @@ internal data class Week(
          * 最初の日付から、1週間分の日付リストを作成する
          */
         fun of(firstDayOfWeek: LocalDate): Week {
-            val weekDays: List<Day> = (0..6).toList().map {
+            val weekDays = (0..6).toList().map {
                 Day(firstDayOfWeek.plusDays(it.toLong()))
             }
             return Week(weekDays)
         }
     }
 }
-

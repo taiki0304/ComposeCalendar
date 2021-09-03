@@ -13,6 +13,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.monet.library.component.CalendarHeader
 import com.monet.library.component.CalendarTable
 import com.monet.library.component.WeekdayLabel
+import com.monet.library.model.Day
 import com.monet.library.model.Month
 import java.time.LocalDate
 import java.time.YearMonth
@@ -26,12 +27,23 @@ fun Calendar(
     selectedDate: LocalDate? = null
 ) {
     val month = remember { mutableStateOf(Month.of(today)) }
+    val rememberSelectedDate = remember { mutableStateOf(selectedDate) }
     val pagerState = rememberPagerState(
         pageCount = Int.MAX_VALUE,
         initialPage = month.value.monthIndex
     )
-    CalendarLayout(modifier = modifier, month.value, pagerState = pagerState) {
-        month.value = it
+
+    CalendarLayout(
+        modifier = modifier,
+        month.value,
+        pagerState = pagerState,
+        today,
+        rememberSelectedDate.value,
+        onChangePage = {
+            month.value = it
+        }) {
+        // 日付の選択
+        rememberSelectedDate.value = it.day
     }
 }
 
@@ -41,13 +53,23 @@ private fun CalendarLayout(
     modifier: Modifier = Modifier,
     month: Month,
     pagerState: PagerState,
-    onPageChange: (Month) -> Unit = {}
+    today: LocalDate? = null,
+    selectedDate: LocalDate? = null,
+    onChangePage: (Month) -> Unit = {},
+    onSelectDay: (Day) -> Unit = {}
 ) {
 
     Column(modifier = modifier) {
         CalendarHeader(month)
         WeekdayLabel()
-        CalendarTable(pagerState, month, onPageChange)
+        CalendarTable(
+            pagerState,
+            month,
+            today,
+            selectedDate,
+            onChangePage = onChangePage,
+            onSelectDay = onSelectDay
+        )
     }
 }
 

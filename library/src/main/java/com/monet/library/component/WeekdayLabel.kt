@@ -10,19 +10,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.monet.library.CalendarConstants
+import com.monet.library.CalendarManager
 
 /** 曜日ラベル */
 @Composable
 internal fun WeekdayLabel() {
     val weekdayList = listOf(
-        CalendarConstants.SUN_LABEL,
-        CalendarConstants.MON_LABEL,
-        CalendarConstants.THU_LABEL,
-        CalendarConstants.WED_LABEL,
-        CalendarConstants.TUE_LABEL,
-        CalendarConstants.FRI_LABEL,
-        CalendarConstants.SAT_LABEL,
+        CalendarManager.Localizable.SUN_LABEL,
+        CalendarManager.Localizable.MON_LABEL,
+        CalendarManager.Localizable.THU_LABEL,
+        CalendarManager.Localizable.WED_LABEL,
+        CalendarManager.Localizable.TUE_LABEL,
+        CalendarManager.Localizable.FRI_LABEL,
+        CalendarManager.Localizable.SAT_LABEL,
     )
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
@@ -31,11 +31,11 @@ internal fun WeekdayLabel() {
             .fillMaxWidth()
             .padding(vertical = 4.dp)
     ) {
-        weekdayList.forEachIndexed { index, label ->
-            val color = when (index) {
-                0 -> CalendarConstants.Sunday
-                6 -> CalendarConstants.Saturday
-                else -> CalendarConstants.Weekday
+        weekdayList.forEach { label ->
+            val color = when (label) {
+                CalendarManager.Localizable.SUN_LABEL -> CalendarManager.Colors.Sunday
+                CalendarManager.Localizable.SAT_LABEL -> CalendarManager.Colors.Saturday
+                else -> CalendarManager.Colors.Weekday
             }
             Text(text = label, color = color)
         }
