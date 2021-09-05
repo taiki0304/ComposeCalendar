@@ -11,19 +11,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.monet.library.CalendarManager
+import com.monet.library.model.type.FirstDayOfWeek
 
 /** 曜日ラベル */
 @Composable
 internal fun WeekdayLabel() {
-    val weekdayList = listOf(
-        CalendarManager.Localizable.SUN_LABEL,
+    var weekdayList = listOf(
         CalendarManager.Localizable.MON_LABEL,
         CalendarManager.Localizable.THU_LABEL,
         CalendarManager.Localizable.WED_LABEL,
         CalendarManager.Localizable.TUE_LABEL,
         CalendarManager.Localizable.FRI_LABEL,
         CalendarManager.Localizable.SAT_LABEL,
+        CalendarManager.Localizable.SUN_LABEL,
     )
+    if (CalendarManager.firstDayOfWeek == FirstDayOfWeek.SUNDAY) {
+        weekdayList = listOf(CalendarManager.Localizable.SUN_LABEL) + weekdayList.slice(0..5)
+    }
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically,

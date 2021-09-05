@@ -1,12 +1,13 @@
 package com.monet.library.model
 
-import com.monet.library.model.logic.HolidayStrategy
+import com.monet.library.model.holidayLogic.HolidayStrategy
 import java.time.DayOfWeek
 import java.time.LocalDate
 
 /** カレンダーの1日を表現する */
 internal data class Day(
     val day: LocalDate
+    // TODO: イベントを追加
 ) {
 
     /**

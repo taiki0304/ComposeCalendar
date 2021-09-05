@@ -1,6 +1,7 @@
 package com.monet.library
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -24,7 +25,8 @@ import java.time.YearMonth
 fun Calendar(
     modifier: Modifier = Modifier,
     today: LocalDate = LocalDate.now(),
-    selectedDate: LocalDate? = null
+    selectedDate: LocalDate? = null,
+    onSelectDay: (LocalDate) -> Unit = {}
 ) {
     val month = remember { mutableStateOf(Month.of(today)) }
     val rememberSelectedDate = remember { mutableStateOf(selectedDate) }
@@ -39,12 +41,12 @@ fun Calendar(
         pagerState = pagerState,
         today,
         rememberSelectedDate.value,
-        onChangePage = {
-            month.value = it
-        }) {
-        // 日付の選択
-        rememberSelectedDate.value = it.day
-    }
+        onChangePage = { month.value = it },
+        onSelectDay = {
+            // 日付の選択
+            rememberSelectedDate.value = it.day
+            onSelectDay(it.day)
+        })
 }
 
 @ExperimentalPagerApi
@@ -58,7 +60,6 @@ private fun CalendarLayout(
     onChangePage: (Month) -> Unit = {},
     onSelectDay: (Day) -> Unit = {}
 ) {
-
     Column(modifier = modifier) {
         CalendarHeader(month)
         WeekdayLabel()

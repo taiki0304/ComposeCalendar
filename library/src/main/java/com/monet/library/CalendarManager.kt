@@ -1,17 +1,20 @@
 package com.monet.library
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
-import com.monet.library.model.logic.HolidayStrategy
-import com.monet.library.model.logic.JapaneseHolidayStrategy
-import java.time.DayOfWeek
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.dp
+import com.monet.library.model.holidayLogic.DefaultHolidayStrategy
+import com.monet.library.model.holidayLogic.HolidayStrategy
+import com.monet.library.model.type.FirstDayOfWeek
 
 object CalendarManager {
 
     /** 祝日判定ロジック */
-    var holidayStrategy: HolidayStrategy = JapaneseHolidayStrategy()
+    var holidayStrategy: HolidayStrategy = DefaultHolidayStrategy()
 
-    // TODO: 週始まりを設定できるようにする
-    var firstDayOfWeek = DayOfWeek.SUNDAY
+    /** 週始まり */
+    var firstDayOfWeek = FirstDayOfWeek.SUNDAY
 
     /** 色定義 */
     object Colors {
@@ -21,6 +24,12 @@ object CalendarManager {
         var Weekday = Color.Gray
         var Today = Color.Magenta
         var Selected = Color.Blue
+    }
+
+    /** レイアウト */
+    object Layout {
+        var calendarHeight = 320.dp
+        var selectedBackground: Shape = RoundedCornerShape(12.dp)
     }
 
     object Localizable {

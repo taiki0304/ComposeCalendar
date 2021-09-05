@@ -47,10 +47,12 @@ internal fun CalendarTable(
     HorizontalPager(
         pagerState,
         verticalAlignment = Alignment.Top,
-        modifier = Modifier.background(MaterialTheme.colors.background)
+        modifier = Modifier
+            .background(MaterialTheme.colors.background)
+            .height(CalendarManager.Layout.calendarHeight)
     ) {
-        Column(verticalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxWidth()) {
-            month.weekList.forEach { week ->
+        Column(verticalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxSize()) {
+            month.weeksOfMonth.forEach { week ->
                 Row(
                     horizontalArrangement = Arrangement.SpaceAround,
                     verticalAlignment = Alignment.CenterVertically,
@@ -107,9 +109,7 @@ private fun DayCell(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .padding(8.dp)
-                .background(backgroundColor, MaterialTheme.shapes.medium)
-
+                .background(backgroundColor, CalendarManager.Layout.selectedBackground)
         ) {
             Text(
                 day.day.format(DateTimeFormatter.ofPattern(CalendarManager.Localizable.DATE_FORMAT)),
