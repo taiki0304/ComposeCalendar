@@ -24,6 +24,7 @@ object CalendarManager {
         var Weekday = Color.Gray
         var Today = Color.Magenta
         var Selected = Color.Blue
+        var EventDot = Color.Blue
     }
 
     /** レイアウト */

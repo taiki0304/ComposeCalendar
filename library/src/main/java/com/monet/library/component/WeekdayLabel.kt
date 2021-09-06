@@ -25,9 +25,11 @@ internal fun WeekdayLabel() {
         CalendarManager.Localizable.SAT_LABEL,
         CalendarManager.Localizable.SUN_LABEL,
     )
+
     if (CalendarManager.firstDayOfWeek == FirstDayOfWeek.SUNDAY) {
         weekdayList = listOf(CalendarManager.Localizable.SUN_LABEL) + weekdayList.slice(0..5)
     }
+
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically,

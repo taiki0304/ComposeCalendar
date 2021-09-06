@@ -13,13 +13,11 @@ interface HolidayStrategy {
 }
 
 /** Default HolidayStrategy */
-class DefaultHolidayStrategy: HolidayStrategy {
+class DefaultHolidayStrategy : HolidayStrategy {
 
     /**
      * Always return false.
      * If you wanna custom holiday logic, you should make class to override `HolidayStrategy`.
      */
-    override fun isHoliday(date: LocalDate): Boolean {
-        return false
-    }
+    override fun isHoliday(date: LocalDate): Boolean = false
 }

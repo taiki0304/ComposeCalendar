@@ -12,24 +12,22 @@ import androidx.compose.ui.unit.dp
 import com.monet.library.CalendarManager
 import com.monet.library.model.Month
 import java.time.LocalDate
-import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 /** ヘッダー */
 @Composable
-internal fun CalendarHeader(month: Month) {
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        Text(month.yearMonth.format(DateTimeFormatter.ofPattern(CalendarManager.Localizable.YEAR_MONTH_FORMAT)))
-    }
+internal fun CalendarHeader(month: Month) = Row(
+    horizontalArrangement = Arrangement.Center,
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 8.dp)
+) {
+    Text(month.yearMonth.format(DateTimeFormatter.ofPattern(CalendarManager.Localizable.YEAR_MONTH_FORMAT)))
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewCalendarHeader() {
-    CalendarHeader(Month(YearMonth.now(), LocalDate.now()))
+    CalendarHeader(Month.of(LocalDate.now()))
 }

@@ -7,24 +7,25 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 /** 1ヶ月を表現する */
-internal data class Month(
+internal data class Month private constructor(
     val yearMonth: YearMonth,
-    val today: LocalDate
+    val today: LocalDate,
+    /** イベントリスト */
+    val events: List<Event>
 ) {
     companion object {
 
         /**
          * LocalDateからMonthを作成する
          */
-        fun of(date: LocalDate): Month {
-            return Month(YearMonth.of(date.year, date.month), date)
-        }
+        fun of(date: LocalDate, events: List<Event> = emptyList()) =
+            Month(YearMonth.of(date.year, date.month), date, events)
 
         /**
          * monthIndexからMonthを作成する
          * monthIndex = year * 12 + month
          */
-        fun of(monthIndex: Int): Month {
+        fun of(monthIndex: Int, events: List<Event> = emptyList()): Month {
             val isDecember = monthIndex % 12 == 0
             val year = if (isDecember) {
                 monthIndex / 12 - 1
@@ -36,7 +37,7 @@ internal data class Month(
             } else {
                 monthIndex % 12
             }
-            return of(LocalDate.of(year, month, 1))
+            return of(LocalDate.of(year, month, 1), events)
         }
     }
 
@@ -57,12 +58,17 @@ internal data class Month(
                 weekRowCount--
             }
             return (0..weekRowCount).map {
-                Week.of(firstDayOfFirstWeek.plusDays((it * 7).toLong()))
+                Week.of(firstDayOfFirstWeek.plusDays((it * 7).toLong()), eventsOfThisMonth)
             }
         }
 
-    private fun calcLackDateOfWeek(dayOfWeek: DayOfWeek, firstDayOfWeek: FirstDayOfWeek): Int {
-        return when (firstDayOfWeek) {
+    /** 終了日が当月 or 開始日が当月のイベントを当月内のイベントとする */
+    private val eventsOfThisMonth = events.filter { e ->
+        e.endDateTime.month == yearMonth.month || e.startDateTime.month == yearMonth.month
+    }
+
+    private fun calcLackDateOfWeek(dayOfWeek: DayOfWeek, firstDayOfWeek: FirstDayOfWeek): Int =
+        when (firstDayOfWeek) {
             FirstDayOfWeek.SUNDAY -> {
                 if (dayOfWeek == DayOfWeek.SUNDAY) {
                     0
@@ -72,5 +78,4 @@ internal data class Month(
             }
             FirstDayOfWeek.MONDAY -> dayOfWeek.value - 1
         }
-    }
 }
