@@ -93,3 +93,6 @@ lint/tmp/
 
 # macOS
 .DS_Store
+
+# Github properties
+github.properties
