@@ -18,7 +18,17 @@ import com.monet.library.model.Event
 import com.monet.library.model.Month
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.YearMonth
 
+/**
+ * Calendar View
+ * @param modifier The modifier to be applied to the top View
+ * @param today Mark today
+ * @param selectedDate Select specified day
+ * @param events Show event dots
+ * @param onChangePage Call back when swipe page
+ * @param onSelectDay Call back when to select day
+ */
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -26,11 +36,11 @@ fun Calendar(
     modifier: Modifier = Modifier,
     today: LocalDate = LocalDate.now(),
     selectedDate: LocalDate? = null,
-//    events: List<Event> = testEventList,
-    events: List<Event> = emptyList(),
+    events: List<EventDto> = emptyList(),
+    onChangePage: (YearMonth) -> Unit = {},
     onSelectDay: (LocalDate) -> Unit = {}
 ) {
-    val month = remember { mutableStateOf(Month.of(today, events)) }
+    val month = remember { mutableStateOf(Month.of(today, events.map { Event.of(it) })) }
     val rememberSelectedDate = remember { mutableStateOf(selectedDate) }
     val pagerState = rememberPagerState(
         pageCount = Int.MAX_VALUE,
@@ -43,7 +53,11 @@ fun Calendar(
         pagerState = pagerState,
         today = today,
         selectedDate = rememberSelectedDate.value,
-        onChangePage = { month.value = it },
+        onChangePage = {
+            // ページの切り替え
+            month.value = it
+            onChangePage(it.yearMonth)
+        },
         onSelectDay = {
             // 日付の選択
             rememberSelectedDate.value = it.day
@@ -74,12 +88,32 @@ private fun CalendarLayout(
     )
 }
 
+/** DTO of event */
+data class EventDto(
+    /** start datetime of event */
+    val startDateTime: LocalDateTime,
+    /** end datetime of event */
+    val endDateTime: LocalDateTime,
+    /** event name */
+    val name: String? = null
+)
+
 @ExperimentalPagerApi
 @Preview(showBackground = true)
 @Composable
 private fun PreviewCalendarLayout() {
+    val testEventList = listOf(
+        EventDto(LocalDateTime.now(), LocalDateTime.now().plusDays(1), "event1"),
+        EventDto(LocalDateTime.now(), LocalDateTime.now().plusDays(1), "event2"),
+        EventDto(LocalDateTime.now(), LocalDateTime.now().plusDays(1), "event3"),
+        EventDto(
+            LocalDateTime.now().plusMonths(1),
+            LocalDateTime.now().plusMonths(1).plusDays(1),
+            "event4"
+        )
+    )
     val month = Month.of(
-        LocalDate.now(), testEventList
+        LocalDate.now(), testEventList.map { Event.of(it) }
     )
     val pagerState = rememberPagerState(
         pageCount = Int.MAX_VALUE,
@@ -89,14 +123,3 @@ private fun PreviewCalendarLayout() {
         CalendarLayout(month = month, pagerState = pagerState)
     }
 }
-
-val testEventList = listOf(
-    Event(LocalDateTime.now(), LocalDateTime.now().plusDays(1), "event1"),
-    Event(LocalDateTime.now(), LocalDateTime.now().plusDays(1), "event2"),
-    Event(LocalDateTime.now(), LocalDateTime.now().plusDays(1), "event3"),
-    Event(
-        LocalDateTime.now().plusMonths(1),
-        LocalDateTime.now().plusMonths(1).plusDays(1),
-        "event4"
-    )
-)

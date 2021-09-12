@@ -28,7 +28,8 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 /** カレンダー */
-@OptIn(ExperimentalPagerApi::class)
+
+@ExperimentalPagerApi
 @Composable
 internal fun CalendarTable(
     pagerState: PagerState,
@@ -45,6 +46,7 @@ internal fun CalendarTable(
         }
     }
 
+    // TODO: 縦/横のスワイプを切り替えれるようにする
     HorizontalPager(
         pagerState,
         verticalAlignment = Alignment.Top,
@@ -74,6 +76,7 @@ internal fun CalendarTable(
     }
 }
 
+/** Cell of 1 day */
 @Composable
 private fun DayCell(
     day: Day,
@@ -120,6 +123,7 @@ private fun DayCell(
     }
 }
 
+/** Dots of events */
 @Composable
 private fun EventDots(day: Day) {
     Row(
@@ -128,7 +132,7 @@ private fun EventDots(day: Day) {
     ) {
         repeat(day.eventCount(3)) {
             Text(
-                "●",
+                CalendarManager.Localizable.EVENT_DOT,
                 fontSize = 4.sp,
                 color = CalendarManager.Colors.EventDot,
                 textAlign = TextAlign.Center,

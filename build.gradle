@@ -3,6 +3,7 @@ buildscript {
     ext {
         compose_version = '1.0.2'
         accompanist_version = "0.17.0"
+        junit5_version = "5.7.2"
     }
     repositories {
         google()

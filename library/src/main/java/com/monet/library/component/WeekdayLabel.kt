@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.monet.library.CalendarManager
 import com.monet.library.model.type.FirstDayOfWeek
 
-/** 曜日ラベル */
+/** Label of week */
 @Composable
 internal fun WeekdayLabel() {
     var weekdayList = listOf(

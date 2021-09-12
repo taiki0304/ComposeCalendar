@@ -2,12 +2,13 @@ package com.monet.library.model.holidayLogic
 
 import java.time.LocalDate
 
-/** 祝日判定ロジック */
+/** Logic of judge holiday */
 interface HolidayStrategy {
 
     /**
-     * dateが祝日かを判定する
+     * Judge if date is holiday.
      * @param date 判定対象の日付
+     * @return If date is holiday, return True.
      */
     fun isHoliday(date: LocalDate): Boolean
 }

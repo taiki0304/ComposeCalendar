@@ -14,7 +14,7 @@ import com.monet.library.model.Month
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-/** ヘッダー */
+/** Header */
 @Composable
 internal fun CalendarHeader(month: Month) = Row(
     horizontalArrangement = Arrangement.Center,

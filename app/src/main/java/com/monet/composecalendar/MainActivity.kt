@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.monet.composecalendar.ui.theme.ComposeCalendarTheme
 import com.monet.library.Calendar
+import com.monet.library.CalendarManager
+import com.monet.library.model.holidayLogic.JapaneseHolidayStrategy
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +28,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CalendarLayout() {
-//    CalendarConstants.YEAR_MONTH_FORMAT = "yyyy-MM"
+    CalendarManager.holidayStrategy = JapaneseHolidayStrategy()
     Calendar()
 }
 
