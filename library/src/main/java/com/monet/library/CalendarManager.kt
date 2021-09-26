@@ -7,10 +7,12 @@ import androidx.compose.ui.unit.dp
 import com.monet.library.model.holidayLogic.DefaultHolidayStrategy
 import com.monet.library.model.holidayLogic.HolidayStrategy
 import com.monet.library.model.type.FirstDayOfWeek
+import com.monet.library.model.type.SwipeDirection
 
 /**
  * Manage calendar property
- * If you customize calendar property, you customize property of this class.
+ *
+ * If you wanna customize calendar property, you customize property of this class.
  * This class is singleton.
  */
 object CalendarManager {
@@ -38,6 +40,9 @@ object CalendarManager {
     object Layout {
         var calendarHeight = 320.dp
         var selectedBackground: Shape = RoundedCornerShape(12.dp)
+
+        /** Swipe direction (horizontal or vertical) */
+        var swipeDirection: SwipeDirection = SwipeDirection.HORIZONTAL
     }
 
     object Localizable {

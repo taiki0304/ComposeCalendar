@@ -36,11 +36,12 @@ fun Calendar(
     modifier: Modifier = Modifier,
     today: LocalDate = LocalDate.now(),
     selectedDate: LocalDate? = null,
-    events: List<EventDto> = emptyList(),
+    events: List<EventDto>? = null,
     onChangePage: (YearMonth) -> Unit = {},
     onSelectDay: (LocalDate) -> Unit = {}
 ) {
-    val month = remember { mutableStateOf(Month.of(today, events.map { Event.of(it) })) }
+    val rememberEvents = remember { mutableStateOf(events?.map { Event.of(it) } ?: emptyList()) }
+    val month = remember { mutableStateOf(Month.of(today, rememberEvents.value)) }
     val rememberSelectedDate = remember { mutableStateOf(selectedDate) }
     val pagerState = rememberPagerState(
         pageCount = Int.MAX_VALUE,

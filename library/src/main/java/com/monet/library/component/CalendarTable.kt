@@ -15,20 +15,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 import com.monet.library.CalendarManager
 import com.monet.library.model.Day
 import com.monet.library.model.Month
 import com.monet.library.model.type.DayOfMonthType
+import com.monet.library.model.type.SwipeDirection
 import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 /** カレンダー */
-
 @ExperimentalPagerApi
 @Composable
 internal fun CalendarTable(
@@ -45,36 +42,73 @@ internal fun CalendarTable(
             onChangePage(Month.of(monthIndex = page, month.events))
         }
     }
+    val modifier = Modifier
+        .background(MaterialTheme.colors.background)
+        .height(CalendarManager.Layout.calendarHeight)
+    // Calendar content
+    when (CalendarManager.Layout.swipeDirection) {
+        SwipeDirection.HORIZONTAL -> HorizontalCalendar(state = pagerState, modifier = modifier) {
+            CalendarContent(month, today, selectedDay, onSelectDay)
+        }
+        SwipeDirection.VERTICAL -> VerticalCalendar(state = pagerState, modifier = modifier) {
+            CalendarContent(month, today, selectedDay, onSelectDay)
+        }
+    }
+}
 
-    // TODO: 縦/横のスワイプを切り替えれるようにする
-    HorizontalPager(
-        pagerState,
-        verticalAlignment = Alignment.Top,
-        modifier = Modifier
-            .background(MaterialTheme.colors.background)
-            .height(CalendarManager.Layout.calendarHeight)
-    ) {
-        Column(verticalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxSize()) {
-            month.weeksOfMonth.forEach { week ->
-                Row(
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    week.days.forEach { day ->
-                        DayCell(
-                            day,
-                            day.dayOfMonthType(month, CalendarManager.holidayStrategy),
-                            isToday = day.day == today,
-                            isSelected = day.day == selectedDay,
-                            onSelect = { onSelectDay(it) }
-                        )
-                    }
-                }
+/** Horizontal pager calendar */
+@ExperimentalPagerApi
+@Composable
+private fun HorizontalCalendar(
+    state: PagerState,
+    modifier: Modifier = Modifier,
+    content: @Composable PagerScope.(page: Int) -> Unit
+) = HorizontalPager(
+    state = state,
+    verticalAlignment = Alignment.Top,
+    modifier = modifier,
+    content = content
+)
+/** Vertical pager calendar */
+@ExperimentalPagerApi
+@Composable
+private fun VerticalCalendar(
+    state: PagerState,
+    modifier: Modifier = Modifier,
+    content: @Composable PagerScope.(page: Int) -> Unit
+) = VerticalPager(
+    state = state,
+    verticalAlignment = Alignment.Top,
+    modifier = modifier,
+    content = content
+)
+
+@Composable
+private fun CalendarContent(
+    month: Month,
+    today: LocalDate? = null,
+    selectedDay: LocalDate? = null,
+    onSelectDay: (Day) -> Unit = {}
+) = Column(verticalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxSize()) {
+    month.weeksOfMonth.forEach { week ->
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            week.days.forEach { day ->
+                DayCell(
+                    day,
+                    day.dayOfMonthType(month, CalendarManager.holidayStrategy),
+                    isToday = day.day == today,
+                    isSelected = day.day == selectedDay,
+                    onSelect = { onSelectDay(it) }
+                )
             }
         }
     }
 }
+
 
 /** Cell of 1 day */
 @Composable

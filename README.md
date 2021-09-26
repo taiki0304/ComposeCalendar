@@ -40,7 +40,18 @@ dependencies {
 ```
 
 ## How to use
-**TODO**
+1. In your composable function, you can use `Calendar()`.
+```kotlin
+import com.monet.library.Calendar
+...
+@Composable
+private fun CalendarScreen() {
+  Calendar()
+}
+```
+
+2. If you wanna customize property of calendar, you should change property of `CalendarManager`
+   - `CalendarManager` is singleton class, so I suggest to customize property in your `Application` class.
 
 ## License
 **TODO**

@@ -27,7 +27,7 @@ publishing {
         gpr(MavenPublication) {
             groupId "com.taiki0304"
             artifactId "compose-calendar"
-            version "0.0.5"
+            version "0.0.7"
             artifact sourceJar
             artifact "$buildDir/outputs/aar/library-release.aar"
 
